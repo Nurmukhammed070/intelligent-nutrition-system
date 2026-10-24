@@ -1,1 +1,0 @@
-digraph G { graph [label="NutriSmart — Use Cases",labelloc=t,rankdir=LR]; node [shape=box,style=rounded]; User -> "Record a meal"; User -> "Search foods"; User -> "Set nutrition goals"; User -> "View diary and analytics"; User -> "Upload or remove image (UI)"; "Recognize food by AI (planned)" [style="rounded,dashed"]; User -> "Recognize food by AI (planned)" [style=dashed]; }
