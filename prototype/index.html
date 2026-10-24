@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#236b4a"><title>NutriSmart</title>
+<link rel="stylesheet" href="style.css"></head><body>
+<div class="app">
+<aside class="side"><div class="brand"><span class="logo">✳</span>nutri<b>smart</b></div>
+<nav class="nav" id="sidenav"></nav>
+<div class="card sidecard"><div class="eyebrow">SIMPLE</div><h3>Take a photo or type a meal</h3><small>Calories and macros calculated for you.</small></div></aside>
+<main>
+<header><div><div class="eyebrow" id="eyebrow">TODAY</div><h1 id="title">Overview</h1></div><div class="date" id="date"></div></header>
+
+<section class="page active" id="p-home">
+  <div class="hero"><div><div class="eyebrow">TODAY'S INTAKE</div><div class="bigkcal"><span id="cal">0</span><small> / <span id="goalc">2000</span> kcal</small></div><div class="track light"><i id="calbar"></i></div><p id="left" class="heroleft"></p></div>
+  <div class="quick"><button class="btn primary big" data-go="add" data-act="photo">📷 Photo meal</button><button class="btn secondary big" data-go="add" data-act="text">✍️ Type a meal</button></div>
+  <div class="macros">
+    <div class="card"><small>Protein</small><div class="metric"><span id="pro">0</span> g</div><small id="proG"></small><div class="track"><i id="probar" style="background:#8b7cdb"></i></div></div>
+    <div class="card"><small>Fat</small><div class="metric"><span id="fat">0</span> g</div><small id="fatG"></small><div class="track"><i id="fatbar" style="background:#d78085"></i></div></div>
+    <div class="card"><small>Carbs</small><div class="metric"><span id="carb">0</span> g</div><small id="carbG"></small><div class="track"><i id="carbbar" style="background:#e4a052"></i></div></div>
+  </div>
+  <div class="cols"><div><div class="section"><h2>Last 7 days</h2></div><div class="card"><div class="bars" id="bars"></div></div></div>
+  <div><div class="section"><h2>Smart insight ✧</h2></div><div class="card" id="nudge"></div></div></div>
+  <div class="section"><h2>Today’s diary</h2><button class="btn secondary sm" data-go="diary">See all →</button></div><div class="card rows" id="recent"></div>
+</section>
+
+<section class="page" id="p-diary">
+  <div class="card diary-toolbar"><div><label for="diaryDate" class="field-label">Diary date</label><input id="diaryDate" type="date" aria-label="Diary date"></div><div class="diary-actions"><button class="btn secondary sm" id="diaryToday">Today</button><button class="btn secondary sm" id="exportCsv">↓ Export CSV</button></div></div>
+  <div class="card"><div class="muted" id="diaryTotalLabel">Selected day’s total</div><div class="metric" id="total">0 kcal</div><small id="totalmacro"></small></div>
+  <div id="list"></div>
+</section>
+
+<section class="page" id="p-add">
+  <div class="card">
+    <h3>1. What did you eat?</h3>
+    <div class="quick">
+      <label class="btn primary big" id="camBtn">📷 Take photo<input hidden id="photoCam" type="file" accept="image/*" capture="environment"></label>
+      <label class="btn secondary big">🖼 Choose from gallery<input hidden id="photoGal" type="file" accept="image/*"></label>
+    </div>
+    <div class="or">or search the food database</div>
+    <div class="field search-field"><label for="foodSearch">Food name (automatic nutrition values)</label><input id="foodSearch" type="search" autocomplete="off" placeholder="Try rice, apple, egg, buckwheat…" aria-describedby="searchHelp"><small id="searchHelp">Select a result, set your portion, and we calculate calories and macros.</small></div>
+    <div id="foodMatches" class="search-results" aria-live="polite"></div>
+    <div class="or">or type a whole meal</div>
+    <textarea id="text" rows="2" placeholder="Example: 200 g buckwheat, 2 eggs, banana"></textarea>
+    <div class="chips" id="examples"></div>
+    <div id="photoState" class="photostate" hidden><img id="preview" alt="Selected meal photo"><div id="photoMsg" role="status" aria-live="polite"></div><button type="button" class="photo-clear" id="clearPhoto" aria-label="Remove selected photo">✕ Remove photo</button></div>
+  </div>
+  <div class="card" id="review" hidden>
+    <h3>2. Review and edit</h3>
+    <small class="muted">Use − and + to adjust portions. Calories and macros update automatically.</small>
+    <div id="items"></div>
+    <div class="chips meals" id="meals"></div>
+    <div class="totalbar"><div><b id="rTotal">0 kcal</b><br><small id="rMacro"></small></div><button class="btn primary" id="saveBtn">Save to diary</button></div>
+  </div>
+  <details class="card"><summary>Manual entry (your own values per 100 g)</summary>
+    <div class="formrow"><div class="field"><label>Food name</label><input id="mName"></div><div class="field"><label>Grams</label><input id="mG" type="number" inputmode="decimal" value="100"></div></div>
+    <div class="formrow"><div class="field"><label>kcal / 100 g</label><input id="mK" type="number" inputmode="decimal"></div><div class="field"><label>P</label><input id="mP" type="number" inputmode="decimal"></div><div class="field"><label>F</label><input id="mF" type="number" inputmode="decimal"></div><div class="field"><label>C</label><input id="mC" type="number" inputmode="decimal"></div></div>
+    <button class="btn secondary" id="mAdd" style="margin-top:12px">Add to list</button></details>
+  <p class="notice">Nutrition estimates come from an illustrative food catalogue. Photo-based estimates are uncertain; always verify portion sizes. Not medical advice.</p>
+</section>
+
+<section class="page" id="p-insights"><div class="card" id="insightList"></div>
+  <div class="card"><h3>How it works</h3><p class="muted">Insights use transparent rules based on your diary and goals. For information only, not medical advice.</p></div></section>
+
+<section class="page" id="p-goals"><div class="card"><h3>Daily goals</h3>
+  <div class="field"><label>Calories (kcal)</label><input id="goalcal" type="number" inputmode="numeric"></div>
+  <div class="field"><label>Protein (g)</label><input id="goalpro" type="number" inputmode="numeric"></div>
+  <div class="field"><label>Fat (g)</label><input id="goalfat" type="number" inputmode="numeric"></div>
+  <div class="field"><label>Carbs (g)</label><input id="goalcarb" type="number" inputmode="numeric"></div>
+  <button class="btn primary" id="saveGoals" style="margin-top:15px">Save goals</button></div>
+  <div class="card"><h3>Privacy</h3><p class="muted">Entries are stored only in this browser (localStorage). A selected photo is sent to the recognition server only if recognition is configured; it is not stored by this app.</p><button class="btn secondary" id="reset">Reset data</button></div></section>
+</main></div>
+<nav class="tabbar" id="tabbar"></nav>
+<div class="toast" id="toast"></div>
+<script src="foods.js"></script><script src="parser.js"></script><script src="app.js"></script>
+</body></html>

@@ -1,0 +1,11 @@
+const test = require("node:test"), assert = require("node:assert");
+const P = require("../prototype/parser.js");
+const one = t => P.parse(t)[0];
+test("граммы и продукт", () => { const r = one("200 г гречки"); assert.equal(r.food.name, "Cooked buckwheat"); assert.equal(r.grams, 200); assert.equal(Math.round(P.nutrients(r).kcal), 220); });
+test("слитно: 150гр творога", () => { const r = one("150гр творога"); assert.equal(r.grams, 150); assert.match(r.food.name, /Cottage cheese/); });
+test("штуки: 2 яйца", () => { const r = one("2 яйца"); assert.equal(r.grams, 110); assert.equal(Math.round(P.nutrients(r).p), 14); });
+test("несколько продуктов", () => { const r = P.parse("200 г риса, куриная грудка 150 г и банан"); assert.equal(r.length, 3); assert.equal(r[1].grams, 150); assert.equal(r[2].grams, 120); });
+test("кг и мл", () => { assert.equal(one("0,5 кг арбуза").grams, 500); assert.equal(one("250 мл молока").grams, 250); });
+test("ложки и стакан", () => { assert.equal(one("1 ст.л. мёда").grams, 15); assert.equal(one("стакан кефира").grams, 200); });
+test("неизвестный продукт", () => { const r = one("100 г дуриан"); assert.equal(r.known, false); assert.equal(r.grams, 100); });
+test("без количества — порция по умолчанию с пометкой", () => { const r = one("борщ"); assert.ok(r.note); assert.equal(r.grams, 150); });

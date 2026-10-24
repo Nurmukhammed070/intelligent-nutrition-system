@@ -1,0 +1,9 @@
+{
+  "name": "nutrismart",
+  "version": "0.7.0",
+  "private": true,
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "node --test tests/*.test.js"
+  }
+}
